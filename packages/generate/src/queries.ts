@@ -188,7 +188,9 @@ async function getMatches(root: string, patterns?: string[]) {
     ignore: ["node_modules/**", `**/migrations/**`, `**/fixups/**`],
   });
 
-  return allFiles;
+  // globby's order follows directory traversal, which can differ between
+  // filesystems; sort so generated output matches across machines and CI
+  return allFiles.sort();
 }
 
 // const targetToExtension: {[k in Target]: string} = {
